@@ -1,19 +1,38 @@
-// setting up the environment
+// setting up our environment
 var express = require('express');
 const crypto2 = require('crypto2');
 var app = express();
 
+// What we need for our database connection
+const MongoClient = require('mongodb').MongoClient
+var ObjectID = require('mongodb').ObjectID;
+const bodyParser= require('body-parser')
 
-// Create Keys
-const { privateKey, publicKey } = await crypto2.createKeyPair();
+// ... and some stuff to enable "post requests"
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
-//Encryption
+
+// Connect to our "sample" database and listening on port 3000
+MongoClient.connect('mongodb://trojan:00000000@ds247027.mlab.com:47027/crud', (err, db) => {
+    if (err) return console.log(err)
+
+    app.listen(3000, () => {
+        console.log('App listening on 3000')
+    });
+});
+
+
+// Create Keys (await deleted)
+const { privateKey, publicKey } = crypto2.createKeyPair();
+
+// Encryption
 async function encryption(data) {
     const encrypted = await crypto2.encrypt.rsa(data, publicKey);
     return encrypted;
 }
 
-//Decryption
+// Decryption
 async function decryption(secret){
     const decrypted = await crypto2.decrypt.rsa(secret, privateKey);
     return decrypted;
@@ -21,19 +40,21 @@ async function decryption(secret){
 }
 
 // Save in database
-app.post('/name/add', (req, res, next) => {
+app.post('/data/add', (req, res, next) => {
 
     var name = {
         first_name: req.body.first_name,
         last_name: req.body.last_name
     };
 
-    dbase.collection("name").save(name, (err, result) => {
+    let data = encryption(data);
+
+    dbase.collection('name').save(name, (err, result) => {
         if(err) {
             console.log(err);
         }
 
-        res.send('name added successfully');
+        res.send('data added successfully');
     });
 });
 
@@ -44,11 +65,4 @@ app.get('/name', (req, res) => {
         res.send(results)
     });
 });
-
-
-
-
-app.post(3000, function () {
-    console.log('Example app listening on port 3000!');
-})
 
