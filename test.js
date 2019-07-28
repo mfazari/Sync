@@ -1,25 +1,41 @@
 // setting up our environment
 var express = require('express');
 const crypto2 = require('crypto2');
+const bodyParser= require('body-parser')
 var app = express();
 
+// Variable we take instead of database
+var encr;
+var decr;
+
+/*
 // What we need for our database connection
+
 const MongoClient = require('mongodb').MongoClient
 var ObjectID = require('mongodb').ObjectID;
 const bodyParser= require('body-parser')
+ */
 
 // ... and some stuff to enable "post requests"
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 
+/*
 // Connect to our "sample" database and listening on port 3000
+
 MongoClient.connect('mongodb://trojan:00000000@ds247027.mlab.com:47027/crud', (err, db) => {
     if (err) return console.log(err)
 
     app.listen(3000, () => {
         console.log('App listening on 3000')
     });
+});
+ */
+
+
+app.listen(3000, function () {
+    console.log('App listening on port 3000!');
 });
 
 
@@ -59,6 +75,10 @@ app.post('/data/add', (req, res, next) => {
 
         let encrypted_data = encryption(clean_string);
 
+        //temp
+        encr = encrypted_data;
+
+        /*
         dbase.collection('encrypted_data').save(encrypted_data, (err, result) => {
             if(err) {
                 console.log(err);
@@ -66,6 +86,8 @@ app.post('/data/add', (req, res, next) => {
 
             res.send('data added successfully');
         });
+
+         */
     }
     else{
         res.send('ERROR: Only alphanumeric values are accepted!')
@@ -75,9 +97,15 @@ app.post('/data/add', (req, res, next) => {
 
 // Read and decrypt from database
 app.get('/data', (req, res) => {
+    /*
     dbase.collection('encrypted_data').find().toArray( (err, results) => {
         let decrypted_data = decryption(result);
         res.send(decrypted_data);
     });
+     */
+    decr = decryption(encr);
+    res.send(decr);
+
+
 });
 
