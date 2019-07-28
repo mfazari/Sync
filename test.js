@@ -39,17 +39,17 @@ async function decryption(secret){
 
 }
 
-// Save in database
+
+// Encrypt and save in database
 app.post('/data/add', (req, res, next) => {
 
-    var name = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
+    let data = {
+        text : req.body.text
     };
 
-    let data = encryption(data);
+    let encrypted_data = encryption(data);
 
-    dbase.collection('name').save(name, (err, result) => {
+    dbase.collection('encrypted_data').save(encrypted_data, (err, result) => {
         if(err) {
             console.log(err);
         }
@@ -59,10 +59,11 @@ app.post('/data/add', (req, res, next) => {
 });
 
 
-// Read from database
-app.get('/name', (req, res) => {
-    dbase.collection('name').find().toArray( (err, results) => {
-        res.send(results)
+// Read and decrypt from database
+app.get('/data', (req, res) => {
+    dbase.collection('encrypted_data').find().toArray( (err, results) => {
+        let decrypted_data = decryption(result);
+        res.send(decrypted_data);
     });
 });
 
