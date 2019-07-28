@@ -43,10 +43,13 @@ async function decryption(secret){
 // Encrypt and save in database
 app.post('/data/add', (req, res, next) => {
 
+    let data = new
     let data = {
         text : req.body.text
     };
 
+// REGEX FOR ALPHANUMERIC NUMBERS: /^([0-9]|[a-z])+([0-9a-z]+)$/i
+    if(data.text.stringify())
     let encrypted_data = encryption(data);
 
     dbase.collection('encrypted_data').save(encrypted_data, (err, result) => {
