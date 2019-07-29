@@ -4,7 +4,7 @@ const crypto2 = require('crypto2');
 const bodyParser= require('body-parser')
 var app = express();
 
-// Variable we take instead of database
+// Variables we take instead of database
 var encr;
 var decr;
 
@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 /*
 // Connect to our "sample" database and listening on port 3000
 
-MongoClient.connect('mongodb://trojan:00000000@ds247027.mlab.com:47027/crud', (err, db) => {
+MongoClient.connect('mongodb://localhost:27017/test', (err, db) => {
     if (err) return console.log(err)
 
     app.listen(3000, () => {
@@ -99,7 +99,7 @@ app.post('/data/add', (req, res, next) => {
 app.get('/data', (req, res) => {
     /*
     dbase.collection('encrypted_data').find().toArray( (err, results) => {
-        let decrypted_data = decryption(result);
+        let decrypted_data = decryption(results);
         res.send(decrypted_data);
     });
      */
