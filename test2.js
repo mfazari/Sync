@@ -7,13 +7,12 @@ const NodeRSA = require('node-rsa');
 
 // What we need for our database
 const MongoClient = require('mongodb').MongoClient;
-var ObjectID = require('mongodb').ObjectID;
 const bodyParser= require('body-parser');
 var url = 'mongodb://localhost:27017/test';
 var dbase;
 
 
-// ... and some stuff to enable "post requests"
+// BodyParser to enable "post requests"
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -35,7 +34,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, db) => {
     });
     dbase = db.db("crud");
 
-    // delete our old data
+    // delete our old data to have "clean" database
     dbase.collection("data").deleteMany({ }, function(err, obj) {
         if (err) throw err;
         console.log(obj.result.n + " document(s) deleted");
@@ -45,6 +44,7 @@ MongoClient.connect(url, { useNewUrlParser: true }, (err, db) => {
 // Encrypt and save in database
 app.post('/data/add', (req, res, next) => {
 
+    // Variable to save our PostMan input
     let input_data = {
         text : req.body.text
     };
@@ -52,18 +52,21 @@ app.post('/data/add', (req, res, next) => {
     // JSON to String
     let string = JSON.stringify(input_data.text);
 
-    // Get rid of "" or '' in String
+    // Filter: Get rid of "" or '' in String
     let clean_string = string.replace(/["']/g, "");
 
     // Check for alphanumeric input
     if(clean_string.match(/^([0-9]|[a-z])+([0-9a-z]+)$/i)) {
 
+        // Let's finally encrypt our String...
         let encrypted_string = key.encrypt(clean_string, 'base64');
 
+        // ... and save it as JSON to insert it into our database!
         encrypted_data = {
             Word: encrypted_string
         };
 
+        // Push to database
         dbase.collection('data').insertOne(encrypted_data, (err, result) => {
             if(err) {
                 console.log(err);
@@ -82,10 +85,9 @@ app.post('/data/add', (req, res, next) => {
 // Read and decrypt from database
 app.get('/data', (req, res) => {
     dbase.collection('data').find(encrypted_data).toArray( (err, results) => {
-        let read_data = JSON.stringify(results[0].Word);
-        const decrypted = key.decrypt(read_data, 'utf8');
-        res.send(decrypted);
-        console.log(decrypted);
+        let decrypted_data = JSON.stringify(results[0].Word);
+        let decrypted_string = key.decrypt(decrypted_data, 'utf8');
+        res.send(decrypted_string);
     });
 
 });
