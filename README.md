@@ -12,7 +12,7 @@ Standard node environment
 
 
 ```
-npm install test.js
+node test.js
 ```
 
 
@@ -20,7 +20,7 @@ Now the App should be listening on port 3000. (--> localhost:3000)
 
 ## Postman
 
-Info: Connect database individually. Currently we use a string to simulate 'save and read' from database.
+1. Using MongoDB through Docker container explained [here.](https://www.thepolyglotdeveloper.com/2019/01/getting-started-mongodb-docker-container-deployment/)
 
 #### Add data
 
@@ -39,9 +39,7 @@ Get request to http://localhost:3000/data
 ## Used frameworks
 
 - Standard Node environment
-- Crypto2
-
-
+- NodeRSA (instead of Crypto2)
 
 
 ### Author
