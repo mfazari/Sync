@@ -40,6 +40,8 @@ Get request to http://localhost:3000/data
 
 - Standard Node environment
 - NodeRSA (instead of Crypto2)
+- npm body-parser
+- npm mongodb
 
 
 ### Author
