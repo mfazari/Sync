@@ -1,0 +1,26 @@
+{
+  "name": "syncmoney",
+  "version": "1.0.0",
+  "description": "Simple App using CRUD to save and read encrypted data from database",
+  "main": "Test2.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.3.0-beta2",
+    "node-rsa": "latest",
+    "body-parser": "latest"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mfazari/Sync.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mfazari/Sync/issues"
+  },
+  "homepage": "https://github.com/mfazari/Sync#readme"
+}
