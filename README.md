@@ -1,4 +1,4 @@
-# Sync Money Test
+# CRUD App (Sync Money)
 
 Simple App using CRUD to save and read encrypted data from database
 
