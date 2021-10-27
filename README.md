@@ -1,4 +1,4 @@
-# CRUD App (Sync Money)
+# Post Routing DB Node (Sync Money)
 
 Simple App using CRUD to save and read encrypted data from database
 
@@ -48,4 +48,4 @@ Massimo Fazari.
 
 ## License
 
-tba
+MIT License
